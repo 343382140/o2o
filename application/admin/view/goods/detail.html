@@ -1,0 +1,150 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<div class="cl pd-5 bg-1 bk-gray mt-20"> 商品详细信息</div>
+<article class="page-container">
+    <form class="form form-horizontal" id="form-article-add" method="post">
+        基本信息：
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>团购名称：</label>
+            <div class="formControls col-xs-8 col-sm-3">
+                <input type="text" class="input-text" value="{$goodsData.name}" placeholder="" id="" name="name">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>所属城市：</label>
+            <div class="formControls col-xs-8 col-sm-2">
+				<span class="select-box">
+				<select name="city_id" class="select city">
+					<option value="0">--请选择--</option>
+					{volist name="citys" id="vo"}
+					<option value="{$vo.id}" {if condition="$city_id eq $vo.id"}selected="selected"{/if}>{$vo.name}</option>
+					{/volist}
+				</select>
+				</span>
+            </div>
+            <div class="formControls col-xs-8 col-sm-2">
+				<span class="select-box">
+				<select name="child_city_id" class="select childCity">
+                    {volist name="citys" id="vo"}
+					<option value="{$vo.id}" {if condition="$child_city_id eq $vo.id"} selected="selected"{/if}>{$vo.name}</option>
+                    {/volist}
+				</select>
+				</span>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>所属分类：</label>
+            <div class="formControls col-xs-8 col-sm-2">
+				<span class="select-box">
+				<select name="category_id" class="select category">
+					<option value="0">--请选择--</option>
+					{volist name="categorys" id="vo"}
+					<option value="{$vo.id}"{if condition="$goodsData.category_id eq $vo.id"}selected="selected"{/if}>{$vo.name}</option>
+					{/volist}
+				</select>
+				</span>
+            </div>
+            <div class="formControls col-xs-8 col-sm-2">
+				<span class="select-box">
+				<select name="child_category_id" class="select childCategory">
+					{volist name="categorys" id="vo"}
+                    <option value="{$vo.id}" {if condition="$goodsData.child_category_id eq $vo.id"}selected="selected"{/if}>{$vo.name}</option>
+				</select>
+				</span>
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">商品图片：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <img id="upload_org_code_img" src="{$goodsData.image}" width="150" height="150">
+                <input id="file_upload_image" name="image" type="hidden" multiple="true" value="{$goodsData.image}">
+
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-9 col-sm-2">所属商店：</label>
+            <div class="formControls col-xs-8 col-sm-2">
+				<span class="select-box">
+				<select name="shop" class="select">
+					<option value="{$goodsData.shop}">{$shop_id_to_name}</option>
+				</select>
+				</span>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">团购开始时间：</label>
+            <div class="formControls col-xs-8 col-sm-3">
+
+                <input type="text" name="start_time" class="input-text" id="countTimestart" value="{$goodsData.start_time|date='y-m-d h:i', ###}"  >
+
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">团购结束时间:</label>
+            <div class="formControls col-xs-8 col-sm-3">
+
+                <input type="text" name="end_time" class="input-text" id="countTimestart" value="{$goodsData.end_time|date='y-m-d h:i', ###}"  >
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">库存数:</label>
+            <div class="formControls col-xs-8 col-sm-3">
+                <input type="text" class="input-text" value="{$goodsData.total_count}" placeholder="" id="" name="total_count">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">原价:</label>
+            <div class="formControls col-xs-8 col-sm-3">
+                <input type="text" class="input-text" value="{$goodsData.origin_price}" placeholder="" id="" name="origin_price">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">团购价:</label>
+            <div class="formControls col-xs-8 col-sm-3">
+                <input type="text" class="input-text" value="{$goodsData.current_price}" placeholder="" id="" name="current_price">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">消费券生效时间：</label>
+            <div class="formControls col-xs-8 col-sm-3">
+
+                <input type="text" name="coupons_begin_time" class="input-text" id="countTimestart" value="{$goodsData.coupons_begin_time|date='y-m-d h:i', ###}"  >
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">消费券结束时间:</label>
+            <div class="formControls col-xs-8 col-sm-3">
+
+                <input type="text" name="coupons_end_time" class="input-text" id="countTimestart"value="{$goodsData.coupons_end_time|date='y-m-d h:i', ###}"  >
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">门店介绍：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea name="description" class="form-control" rows="3">{$goodsData.description}</textarea>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">购买须知：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea name="notes" class="form-control" rows="3">{$goodsData.notes}</textarea>
+            </div>
+        </div>
+    </form>
+</article>
+<script>
+    /**定义页面全局变量**/
+    var SCOPE = {
+        'city_url' : "{:url('comapi/city/getCitysByParentIdNoPager')}",
+        'category_url' : "{:url('comapi/category/getCategorysByParentIdNoPager')}",
+    };
+</script>
+<!--包含头部文件-->
+{include file="public/footer" /}
+<script type="text/javascript" src="__STATIC__/admin/hui/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/hui/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="__STATIC__/admin/hui/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script src="__STATIC__/admin/hui/lib/My97DatePicker/WdatePicker.js"></script>
+</body>
+</html>

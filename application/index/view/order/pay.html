@@ -1,0 +1,44 @@
+{include file="common/header"}
+{include file="common/nav"}
+<div class="search">
+    <div class="w-order-nav-new float-left">
+        <ul class="nav-wrap">
+            <li>
+                <div class="no"><span>1</span></div>
+                <span class="text">订单确认</span>
+            </li>
+            <li class="to-line "></li>
+            <li class="current">
+                <div class="no"><span>2</span></div>
+                <span class="text">订单支付</span>
+            </li>
+            <li class="to-line "></li>
+            <li class="">
+                <div class="no"><span>3</span></div>
+                <span class="text">购买成功</span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="order_details">
+    <ul class="order-list">
+        <li>订单号:<span class="data">{$order.order_id}</span></li>
+        <li>团购商品:<span class="data">{$goods.name}</span></li>
+        <li>数量<span class="data">{$order.buy_count}</span>&nbsp;份</li>
+        <li>应付金额<span class="data">{$order.total_price}</span>&nbsp;元</li>
+    </ul>
+</div>
+<div class="wechat_pay">
+    <img src="__STATIC__/index/image/wechat_pay.png" alt="">
+</div>
+<div class="finished">已完成支付 ></div>
+{include file="common/footer"}
+</body>
+<script>
+    $('.finished').click(function () {
+        var url = "{:url('order/succeed',['id'=>$order.id])}";
+        self.location = url;
+    })
+</script>
+</html>

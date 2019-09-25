@@ -1,0 +1,190 @@
+{include file="common/header"}
+<body>
+{include file="common/nav"}
+<div class="nav-bar-header">
+    <div class="nav-inner">
+        <ul class="nav-list">
+            <li class="nav-item">
+                <span class="item">全部分类</span>
+                <div class="left-menu">
+                    {volist name="categorys" id="category"}
+                    <div class="level-item">
+                        <div class="first-level">
+                            <dl>
+                                <dt class="title"><a href="{:url('lists/index',['id'=>$key])}" target="_blank">{$category[0]}</a></dt>
+                                <!--name与id之间不加空格都报错:未定义数组索引: id-->
+                                {volist name="$category[1]" id="vo" length="2"}
+                                <dd><a target="_blank" href="{:url('lists/index',['id'=>$vo.id])}"  class="_blank">{$vo.name}</a></dd>
+                                {/volist}
+                            </dl>
+                        </div>
+                        <div class="second-level">
+                            <div class="section">
+                                <div class="section-item clearfix no-top-border">
+                                    <h3>热门分类</h3>
+                                    <ul>
+                                        <li><a class="hot">精选品牌</a></li>
+                                        {volist name="$category[1]" id="vo"}
+                                        <li><a target="_blank" href="{:url('lists/index',['id'=>$vo.id])}">{$vo.name}</a></li>
+                                        {/volist}
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    {/volist}
+                </div>
+            </li>
+            <li class="nav-item"><a class="item first active">首页</a></li>
+            <li class="nav-item"><a href="{:url('lists/index')}" class="item">团购</a></li>
+            <!-- <li class="nav-item"><a class="item">精选</a></li>
+            <li class="nav-item"><a class="item">电影</a></li>
+            <li class="nav-item"><a class="item">酒店</a></li>
+            <li class="nav-item"><a class="item" href="{:url('threed/index')}">3D推荐</a></li> -->
+        </ul>
+    </div>
+</div>
+<div class="container">
+    <div id="top-container" class="imgfocus">
+        <div id="decoimg_a2" class="imgbox" >
+            {volist name="bigAds" id="vo"}
+            <div class="decoimg_b2" ><a href="{$vo.url}"><img src="{$vo.image}"></a></div>
+            {/volist}
+        </div>
+
+        <ul id="deconum2" class="num_a2">
+            <li><a href="javascript:void(0)" hidefocus="true" target="_self"></a></li>
+            <li><a href="javascript:void(0)" hidefocus="true" target="_self"></a></li>
+            <li><a href="javascript:void(0)" hidefocus="true" target="_self"></a></li>
+            <li><a href="javascript:void(0)" hidefocus="true" target="_self"></a></li>
+        </ul>
+
+    </div>
+    <div class="right-ad">
+        <ul class="slidepic">
+            {volist name="smallAds" id="vo"}
+            <li><a href="{$vo.url}"><img src="{$vo.image}" /></a></li>
+            {/volist}
+        </ul>
+    </div>
+</div>
+<div class="content-container">
+    <div class="no-recom-container">
+        <div class="floor-content-start">
+
+            <div class="floor-content">
+                <div class="floor-header">
+                    <h3>美食</h3>
+                    <ul class="reco-words">
+                        {volist name="recom_child_categorys_meishi" id="vo"}
+                        <li><a href="{:url('lists/index',['id'=>$vo.id])}" target="_blank">{$vo.name}</a></li>
+                        {/volist}
+                        <li><a href="{:url('lists/index',['id'=>1])}" class="no-right-border no-right-padding" target="_blank">全部&nbsp;<span class="all-cate-arrow"></span></a></li>
+                    </ul>
+                </div>
+                <ul class="itemlist eight-row-height">
+                    {if condition="$goods_meishi"}
+                    {volist name="goods_meishi" id="vo"}
+                    <li class="j-card">
+                            <div class="imgbox">
+                                <ul class="marketing-label-container">
+                                    <li class="marketing-label marketing-free-appoint"></li>
+                                </ul>
+                                <div class="borderbox">
+                                    <a href="{:url('detail/index',['id'=>$vo.id])}"><img src="{$vo.image}" /></a>
+                                </div>
+                            </div>
+                        <div class="contentbox">
+                            <a href="{:url('detail/index',['id'=>$vo.id])}" target="_blank">
+                                <div class="header">
+                                    <h4 class="title ">{$vo.name}</h4>
+                                </div>
+                                <p>{$vo.description}</p>
+                            </a>
+                            <div class="pinfo">
+                                <span class="price"><span class="moneyico">¥</span>{$vo.current_price}</span>
+                                <span class="ori-price">价值<span class="price-line">¥<span>{$vo.current_price}</span></span></span>
+                            </div>
+                            <div class="footer">
+                                <span class="comment">4.6分</span><span class="sold">已售{$vo.buy_count}</span>
+                                <div class="bottom-border"></div>
+                            </div>
+                        </div>
+                    </li>
+                    {/volist}
+                    {else/}
+                    <span style="font-size:24px;color: red">该城市下没有改分类的商品</span>
+                    {/if}
+                </ul>
+            </div>
+            <div class="floor-content">
+                <div class="floor-header">
+                    <h3>休闲娱乐</h3>
+                    <ul class="reco-words">
+                        {volist name="recom_child_categorys_xiuxian" id="vo"}
+                        <li><a href="{:url('lists/index',['id'=>$vo.id])}" target="_blank">{$vo.name}</a></li>
+                        {/volist}
+                        <li><a href="{:url('lists/index',['id'=>1])}" class="no-right-border no-right-padding" target="_blank">全部&nbsp;<span class="all-cate-arrow"></span></a></li>
+                    </ul>
+                </div>
+                <ul class="itemlist eight-row-height">
+                    {if condition="$goods_xiuxian"}
+                    {volist name="goods_xiuxian" id="vo"}
+                    <li class="j-card">
+                            <div class="imgbox">
+                                <ul class="marketing-label-container">
+                                    <li class="marketing-label marketing-free-appoint"></li>
+                                </ul>
+
+                                <div class="borderbox">
+                                    <a href="{:url('detail/index',['id'=>$vo.id])}"><img src="{$vo.image}" /></a>
+                                </div>
+                            </div>
+                        <div class="contentbox">
+                            <a href="{:url('detail/index',['id'=>$vo.id])}" target="_blank">
+                                <div class="header">
+                                    <h4 class="title ">{$vo.name}</h4>
+                                </div>
+                                <p>{$vo.description}</p>
+                            </a>
+                            <div class="pinfo">
+                                <span class="price"><span class="moneyico">¥</span>{$vo.current_price}</span>
+                                <span class="ori-price">价值<span class="price-line">¥<span>{$vo.current_price}</span></span></span>
+                            </div>
+                            <div class="footer">
+                                <span class="comment">4.6分</span><span class="sold">已售{$vo.buy_count}</span>
+                                <div class="bottom-border"></div>
+                            </div>
+                        </div>
+                    </li>
+                    {/volist}
+                    {else/}
+                    <span style="font-size:24px;color: red">该城市下没有改分类的商品</span>
+                    {/if}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="common/footer"}
+<script type="text/javascript">
+    Qfast.add('widgets', { path: "__STATIC__/index/js/terminator2.2.min.js", type: "js", requires: ['fx'] });
+    Qfast(false, 'widgets', function () {
+        K.tabs({
+            id: 'top-container',//焦点图包裹id
+            conId: "decoimg_a2",//大图域包裹id
+            tabId:"deconum2",//小圆点数字提示id
+            tabTn:"a",
+            conCn: '.decoimg_b2',//大图域配置class
+            auto: 1,//自动播放 1或0
+            effect: 'fade',//效果配置
+            eType: 'mouseover',// 鼠标事件
+            pageBt:true,//是否有按钮切换页码
+            bns: ['.prev', '.next'],//前后按钮配置class
+            interval: 2500// 停顿时间
+        })
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 会员管理 <span class="c-gray en">&gt;</span> 会员列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<form action="{:url('user/bisusers')}" method="get">
+		<div class="text-c"> 日期范围：
+			<input type="text" name="start_time" onfocus="selecttime(1)" id="countTimestart" value="{$start_time}" class="input-text Wdate" style="width:150px;">
+			-
+			<input type="text" name="end_time" onfocus="selecttime(1)" id="countTimeend" value="{$end_time}" class="input-text Wdate" style="width:150px;">
+			<input type="text" class="input-text" style="width:250px" placeholder="输入会员名称、电话、邮箱" id="" value="{$name}" name="name">
+			<!-- <button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button> -->
+			<button name="" id="" class="btn btn-success radius" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
+		</div>
+	</form>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont" >&#xe6e2;</i> 批量删除</a> <!-- <a href="javascript:;" onclick="member_add('添加用户','bis_member_add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a> --></span> <span class="r">共有数据：<strong>88</strong> 条</span> </div>
+	<div class="mt-20">
+	<table class="table table-border table-bordered table-hover table-bg table-sort">
+		<thead>
+			<tr class="text-c">
+				<th width="25"><input type="checkbox" name="" ></th>
+				<th width="80">ID</th>
+				<th width="100">用户名</th>
+				<!-- <th width="90">手机</th> -->
+				<th width="150">所属商家</th>
+				<th width="130">注册时间</th>
+				<th width="70">状态</th>
+				<th width="100">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		{volist name="users" id="vo"}
+			<tr class="text-c">
+				<td><input type="checkbox" value="{$vo.id}" name="delId[]"></td>
+				<td>{$vo->id}</td>
+				<td><u style="cursor:pointer" class="text-primary">{$vo.username}</u></td>
+				<td>{:getBisName($vo.bis_id)}</td>
+				<td>{$vo.create_time}</td>
+				<td class="td-status"><span class="label label-success radius">{$vo.status|user_status}</span></td>
+				<td class="td-manage"><a style="text-decoration:none" onClick="member_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a><a title="删除" href="javascript:;" onclick="member_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+			</tr>
+			{/volist}
+		</tbody>
+	</table>
+	</div>
+	{:pagination($users)}
+</div>
+<!--包含头部文件-->
+{include file="public/footer" /}
+<script type="text/javascript">
+$(function(){
+	$('.table-sort').dataTable({
+		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+		"bStateSave": true,//状态保存
+		"aoColumnDefs": [
+		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+		  {"orderable":false,"aTargets":[0,8,9]}// 制定列不参与排序
+		]
+	});
+	$('.table-sort tbody').on( 'click', 'tr', function () {
+		if ( $(this).hasClass('selected') ) {
+			$(this).removeClass('selected');
+		}
+		else {
+			table.$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		}
+	});
+});
+
+/*用户-批量删除 */
+function datadel(){
+	layer.confirm('确认要删除吗？',function(index){
+        var data = $("input").serialize();    
+        //serialize() 方法通过序列化表单值，创建 URL 编码文本字符串,这个是jquery提供的方法    
+        $.ajax({    
+            type:"post",    
+            url:"{:url('user/datadelbis')}",    
+            data:data,//这里data传递过去的是序列化以后的字符串    
+            success:function(data){    
+                //$("#content").append(data);//获取成功以后输出返回值  
+                //alert(data);
+                //console.log(data);
+                layer.msg('批量删除成功!',{icon:1,time:1000});
+            },
+            error:function(data){
+            	layer.msg('您未选中或批量删除失败!',{icon: 5,time:1000});
+            }     
+        });    
+    });
+}
+
+/*用户-添加*/
+function member_add(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+/*用户-查看*/
+function member_show(title,url,id,w,h){
+	layer_show(title,url,w,h);
+}
+/*用户-停用*/
+function member_stop(obj,id){
+	layer.confirm('确认要停用吗？',function(index){
+		$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
+		$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
+		$(obj).remove();
+		layer.msg('已停用!',{icon: 5,time:1000});
+	});
+}
+
+/*用户-启用*/
+function member_start(obj,id){
+	layer.confirm('确认要启用吗？',function(index){
+		$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
+		$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
+		$(obj).remove();
+		layer.msg('已启用!',{icon: 6,time:1000});
+	});
+}
+/*用户-编辑*/
+function member_edit(title,url,id,w,h){
+	layer_show(title,url,w,h);
+}
+/*密码-修改*/
+function change_password(title,url,id,w,h){
+	layer_show(title,url,w,h);	
+}
+/*用户-删除*/
+function member_del(obj,id){
+	layer.confirm('确认要删除吗？',function(index){
+		$(obj).parents("tr").remove();
+		layer.msg('已删除!',{icon:1,time:1000});
+	});
+}
+</script> 
+

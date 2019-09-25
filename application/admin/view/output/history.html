@@ -1,0 +1,50 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 提现申请列表 </nav>
+<div class="page-container">
+    <div class="mt-20">
+        <table class="table table-border table-bordered table-bg table-hover table-sort">
+            <thead>
+            <tr class="text-c">
+                <th width="40">ID</th>
+                <th width="80">提现商家管理员</th>
+                <th width="80">提现金额</th>
+                <th width="80">扣费后实际到账</th>
+                <th width="80">银行卡号</th>
+                <th width="80">申请时间</th>
+                <th width="40">状态</th>
+                <th width="40">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="orderLists" id="vo"}
+            <tr class="text-c">
+                <td>{$vo.id}</td>
+                <td>{$bis_id_to_name[$vo.id]}</td>
+                <td>{$vo.output_money}</td>
+                <td>{$vo.shiji_output_money}</td>
+                <td>{$bis_card_number[$vo.id]}</td>
+                <td>{$vo.create_time}</td>
+                <td >{$vo.status|statusOutput}</td>
+                <td class="td-manage">
+                    <a style="text-decoration:none" class="ml-5" onClick=o2o_output("{:url('output/destroy',['id'=>$vo.id])}") title="删除记录"><i class="Hui-iconfont">删除记录</i></a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+</div>
+{include file="public/footer" /}
+</body>
+<script>
+    function o2o_output(url) {
+//		alert(url);
+//		return false;
+        layer.confirm('确定从数据库中删除此记录？',function(index){
+            window.location.href=url;
+        });
+    }
+</script>
+</html>

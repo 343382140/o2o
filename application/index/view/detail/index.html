@@ -1,0 +1,444 @@
+{include file="common/header"}
+<body>
+{include file="common/nav"}
+<div class="nav-bar-header">
+    <div class="nav-inner">
+        <ul class="nav-list">
+            <li class="nav-item">
+                <span class="item">全部分类</span>
+                <div class="left-menu">
+                    {volist name="categorys" id="category"}
+                    <div class="level-item">
+                        <div class="first-level">
+                            <dl>
+                                <dt class="title"><a href="{:url('lists/index',['id'=>$key])}" target="_top">{$category[0]}</a></dt>
+                                <!--name与id之间不加空格都报错:未定义数组索引: id-->
+                                {volist name="$category[1]" id="vo" length="2"}
+                                <dd><a target="_blank" href="{:url('lists/index',['id'=>$vo.id])}" target="_top" class=""></a>{$vo.name}</dd>
+                                {/volist}
+                            </dl>
+                        </div>
+                        <div class="second-level">
+                            <div class="section">
+                                <div class="section-item clearfix no-top-border">
+                                    <h3>热门分类</h3>
+                                    <ul>
+                                        <li><a class="hot">精选品牌</a></li>
+                                        {volist name="$category[1]" id="vo"}
+                                        <li><a target="_blank" href="{:url('lists/index',['id'=>$vo.id])}">{$vo.name}</a></li>
+                                        {/volist}
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    {/volist}
+                </div>
+            </li>
+            <li class="nav-item"><a href="{:url('index/index')}" class="item first ">首页</a></li>
+            <li class="nav-item"><a class="item active">团购</a></li>
+            <!-- <li class="nav-item"><a class="item">精选</a></li>
+            <li class="nav-item"><a class="item">电影</a></li>
+            <li class="nav-item"><a class="item">酒店</a></li>
+            <li class="nav-item"><a class="item" href="{:url('threed/index')}">3D推荐</a></li> -->
+        </ul>
+    </div>
+</div>
+
+<div class="p-detail">
+    <div class="p-bread-crumb">
+        <div class="w-bread-crumb">
+            <ul class="crumb-list">
+                <li class="crumb"><a href="{:url('lists/index')}">团购</a><span class="ico-gt">&gt;</span></li>
+                <li class="crumb"><a href="{:url('lists/index',['id'=>$goods.category_id])}">{$categoryName}</a><span class="ico-gt">&gt;</span></li>
+                <li class="crumb crumb-last"><a>{$shopName}</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="static-hook-real static-hook-id-5"></div>
+    <div class="p-item-info">
+        <div class="w-item-info">
+            <h2>{$goods.name}</h2>
+            <div class="item-title">
+                <span class="text-main">{$goods.description}</span>
+            </div>
+            <div class="ii-images static-hook-real static-hook-id-6">
+                <div class="w-item-images">
+                    <div class="images-board">
+                        <div class="item-status ">
+                            <span class="ico-status ico-jingxuan"></span>
+                        </div>
+                        <img src="{$goods.image}" class="item-img-large" />
+                    </div>
+                    <ul class="images-list clearfix">
+                        <li class="images images-last">
+                            <img src="{$goods.image}" />
+                        </li>
+                    </ul>
+                    <div class="erweima-share-collect">
+                        <ul class="item-option clearfix">
+                            <li class=" ">
+
+                                <div class="collect-success">
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="ii-intro">
+                <div class="w-item-intro">
+                    <div class="price-area-wrap static-hook-real static-hook-id-8">
+                        <div class="price-area has-promotion-icon">
+                            <div class="pic-price-area">
+                                <span class="unit">¥</span>
+                                <span class="priceNum">{$goods.current_price}</span>
+                            </div>
+
+                            <div class="market-price-area">
+                                <div class="price">¥{$goods.origin_price}</div>
+                                <div class="name">价值</div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <ul class="ugc-strategy-area static-hook-real static-hook-id-10">
+                        <li class="item-bought">
+                            <div class="sl-wrap">
+                                <div class="sl-wrap-cnt">
+                                    <div class="item-bought-num"><span class="intro-strong">{$goods.buy_count}</span>人已团购</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item-bought" style="border: none;margin-left: 20px; ">
+                            <div class="sl-wrap">
+                                <div class="sl-wrap-cnt">
+                                    <div class="item-bought-num">
+                                        <img src="__STATIC__/index/images/map_dot.png" style="width: 20px;height: 23px;margin-bottom: -5px;">
+                                        <span class="intro-strong" style="padding-left: 10px;color: #ff9933">{$shopAddress}附近<span style="color: #B3B3B3">(详情请看地图信息)</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="buy-panel-wrap">
+                        <div class="buy-panel">
+                            <div class="validdate-buycount-area static-hook-real static-hook-id-11">
+                                <div class="item-countdown-row">
+                                    <span class="name">有效期</span>
+                                    <span class="value">{$goods.end_time|date="20y-m-d h:i", ###}</span>
+                                </div>
+                                <div class="item-buycount-row j-item-buycount-row">
+                                    <div class="name">数&nbsp;&nbsp;&nbsp;量</div>
+                                    <div class="buycount-ctrl">
+                                        <a href="javascript:;" class="j-ctrl ctrl minus"><span class="horizontal"></span></a>
+                                        <input class="buyCount" type="text" value="1" maxlength="10" autocomplete="off">
+                                        <a href="javascript:;" class="ctrl j-ctrl plus "><span class="horizontal"></span><span class="vertical"></span></a>
+                                    </div>
+                                    <div class="text-wrap">
+                                        <span class="left-budget">优惠价剩余{$goods.total_count - $goods.buy_count}份</span>
+                                        <span class="err-wrap j-err-wrap"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-buy-area">
+                                <div style="float:left" class="static-hook-real static-hook-id-12">
+                                    <a href="" class="btn-buy btn-buy-qrnew j-btn-buy btn-hit">立即抢购</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-item-info-more">
+        <div class="iim-wrapper">
+            <div class="spec-nav ">
+                <div class="nav-bar"></div>
+                <div class="w-spec-nav" style="position: static; top: auto; z-index: auto;">
+                    <ul class="sn-list">
+                        <li class="spec-nav-current">
+                            <i></i><a><span>地图信息</span></a>
+                        </li>
+                        <li class="">
+                            <i></i><a><span>消费提示</span></a>
+                        </li>
+                        <li class="">
+                            <i></i><a><span>商家介绍</span></a>
+                        </li>
+                        <li class="">
+                            <i></i><a><span>消费评论</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <style>
+            .shopDescription{
+                position: relative;
+                width: 100%;
+                height: 360px;
+                overflow: hidden;
+                margin-bottom: 30px;
+            }
+            .shopDescription .description_img {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 580px;
+                height: 340px;
+            }
+            .shopDescription .description_img img{
+                width: 540px;
+                height: 340px;
+            }
+            .shopDescription .description_p{
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 520px;
+                height: 360px;
+                overflow: hidden;
+            }
+            .shopDescription .description_p h1{
+                padding-left: 40px;
+                font-size: 36px;
+                color: #ff4883;
+            }
+            .shopDescription .description_p p {
+                line-height: 30px;
+                font-size: 22px;
+                color: #999;
+            }
+            .notes{
+                margin-bottom: 20px;
+            }
+            .notes p {
+                line-height: 30px;
+                font-size: 22px;
+                color: #999;
+            }
+        </style>
+            <ul class="j-info-all">
+                <li class="tab">
+                    <div class="ifram" id="shopMap" style="height: 400px;width: 100%;margin-bottom: 20px;"></div>
+                </li>
+                <li class="tab">
+                    <div class="ifram notes">
+                        <p>{$goods.notes}</p>
+                    </div>
+                </li>
+                <li class="tab">
+                    <div class="ifram shopDescription">
+                        <div class="description_img">
+                            <img src="{$shopImg}">
+                        </div>
+                        <div class="description_p">
+                            <h1>{$shopName}</h1>
+                            <p>&nbsp; &nbsp; &nbsp;&nbsp;{$shopDescription}</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{include file="common/footer"}
+<script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
+
+<!--加载百度地图-->
+<script>
+    //创建和初始化地图函数：
+    var x_point = "{$x_point}";
+    var y_point = "{$y_point}";
+//    alert(x_point);
+//   alert(y_point);
+    function initMap() {
+        createMap(); //创建地图
+        setMapEvent(); //设置地图事件
+        addMapControl(); //向地图添加控件
+        addMarker(); //向地图中添加marker
+    }
+    //创建地图函数：
+    function createMap() {
+        var map = new BMap.Map("shopMap"); //在百度地图容器中创建一个地图
+        var point = new BMap.Point(x_point,y_point); //定义一个中心点坐标
+        map.centerAndZoom(point, 13); //设定地图的中心点和坐标并将地图显示在地图容器中，控制显示大小
+        window.map = map; //将map变量存储在全局
+    }
+    //地图事件设置函数：
+
+    function setMapEvent() {
+        map.enableDragging(); //启用地图拖拽事件，默认启用(可不写)
+        map.enableScrollWheelZoom(); //启用地图滚轮放大缩小
+        map.enableDoubleClickZoom(); //启用鼠标双击放大，默认启用(可不写)
+        map.enableKeyboard(); //启用键盘上下左右键移动地图
+    }
+    //地图控件添加函数：
+
+    function addMapControl() {
+        //向地图中添加缩放控件
+        var ctrl_nav = new BMap.NavigationControl({
+            anchor: BMAP_ANCHOR_TOP_LEFT,
+            type: BMAP_NAVIGATION_CONTROL_LARGE
+        });
+        map.addControl(ctrl_nav);
+        //向地图中添加缩略图控件
+        var ctrl_ove = new BMap.OverviewMapControl({
+            anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+            isOpen: 1
+        });
+        map.addControl(ctrl_ove);
+        //向地图中添加比例尺控件
+        var ctrl_sca = new BMap.ScaleControl({
+            anchor: BMAP_ANCHOR_BOTTOM_LEFT
+        });
+        map.addControl(ctrl_sca);
+    }
+    //标注点数组
+    var markerArr = [{
+        title:"&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp {$shopName}",
+        content: "<br>&nbsp &nbsp &nbsp &nbsp &nbsp {$goods.name}",
+        point: "{$x_point}|{$y_point}",
+        isOpen: 1,
+        icon: {
+            w: 21,
+            h: 21,
+            l: 0,
+            t: 0,
+            x: 6,
+            lb: 5
+        }
+    }];
+    //创建marker
+    function addMarker() {
+        for (var i = 0; i < markerArr.length; i++) {
+            var json = markerArr[i];
+            var p0 = json.point.split("|")[0];
+            var p1 = json.point.split("|")[1];
+            var point = new BMap.Point(p0, p1);
+            var iconImg = createIcon(json.icon);
+            var marker = new BMap.Marker(point, {
+                icon: iconImg
+            });
+            var iw = createInfoWindow(i);
+            var label = new BMap.Label(json.title, {
+                "offset": new BMap.Size(json.icon.lb - json.icon.x + 10, -20)
+            });
+            marker.setLabel(label);
+            map.addOverlay(marker);
+            label.setStyle({
+                borderColor: "#808080",
+                color: "#333",
+                cursor: "pointer"
+            });
+            (function() {
+                var index = i;
+                var _iw = createInfoWindow(i);
+                var _marker = marker;
+                _marker.addEventListener("click", function() {
+                    this.openInfoWindow(_iw);
+                });
+                _iw.addEventListener("open", function() {
+                    _marker.getLabel().hide();
+                })
+                _iw.addEventListener("close", function() {
+                    _marker.getLabel().show();
+                })
+                label.addEventListener("click", function() {
+                    _marker.openInfoWindow(_iw);
+                })
+                if (!!json.isOpen) {
+                    label.hide();
+                    _marker.openInfoWindow(_iw);
+                }
+            })()
+        }
+    }
+    //创建InfoWindow
+
+    function createInfoWindow(i) {
+        var json = markerArr[i];
+        var iw = new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b><div class='iw_poi_content'>" + json.content + "</div>");
+        return iw;
+    }
+    //创建一个Icon
+
+    function createIcon(json) {
+        var icon = new BMap.Icon("__STATIC__/index/images/map_dot.png", new BMap.Size(23, 33), {
+            imageOffset: new BMap.Size(-json.l, -json.t),
+            infoWindowOffset: new BMap.Size(json.lb + 5, 1),
+            offset: new BMap.Size(json.x, json.h)
+        })
+        return icon;
+    }
+    initMap(); //创建和初始化地图
+</script>
+
+<!--模块切换-->
+<script>
+    $(".sn-list li").click(function(){
+        var index = $(".sn-list li").index(this)
+        $(".sn-list li").removeClass("spec-nav-current");
+        $(".j-info-all .tab").css({display: "none"});
+        $(this).addClass("spec-nav-current");
+        $(".j-info-all .tab").eq(index).css({display: "block"});
+    });
+</script>
+<!--增加减少数量-->
+<script>
+    //增
+    $('.plus').click(function () {
+       var buyCount = $('.buyCount').val();
+        buyCount++;
+        if(buyCount == 1) {
+            $('.minus').removeClass('disabled');
+        }
+        $('.buyCount').val(buyCount);
+    });
+    //减
+    $('.minus').click(function() {
+        var buyCount = $('.buyCount').val();
+            buyCount --;
+        if(buyCount <= 0){
+            $('.minus').addClass('disabled');
+            $('.minus').css('cursor','');
+            buyCount = 0;
+        }
+        $('.buyCount').val(buyCount);
+    })
+    //输入
+    $('.buyCount').keyup(function () {
+        var buyCount = $('.buyCount').val();
+        if (buyCount != 0) {
+            $('.minus').removeClass('disabled');
+        }
+    })
+    $('.btn-buy').click(function () {
+        var buyCount = $('.buyCount').val();
+        var url = "{:url('order/comfirm',['id'=>$goods.id])}"+"&count="+buyCount;
+//        alert(url);
+        window.open(url);
+    })
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

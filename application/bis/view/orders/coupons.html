@@ -1,0 +1,81 @@
+{include file="public/header"}
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 消费券检测 </nav>
+<div class="page-container">
+    <div class="cl pd-5 bg-1 bk-gray mt-20">
+        <div class="text-c">
+            <form action="{:url('orders/coupons')}"method="get">状态:
+                 <span class="select-box inline">
+                    <select name="status" class="select">
+                        <option value="0">全部</option>
+                        <option value="1">未使用</option>
+                        <option value="2">已使用</option>
+                        <option value="3">已过期</option>
+                    </select>
+                </span>
+                <input type="text" name="coupons_number" id="" placeholder=" 消费券号" style="width:250px" class="input-text"value="">
+                <input type="text" name="coupons_pass" id="" placeholder=" 消费券使用码" style="width:250px" class="input-text"value="">
+                <button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 检测</button>
+            </form>
+        </div>
+    </div>
+    <div class="mt-20">
+        <table class="table table-border table-bordered table-bg table-hover table-sort">
+            <thead>
+            <tr class="text-c">
+                <th width="40">ID</th>
+                <th width="130">消费券号</th>
+                <th width="80">使用码</th>
+                <th width="100">所属团购</th>
+                <th width="80">所属商家</th>
+                <th width="100">开始时间</th>
+                <th width="100">过期时间</th>
+                <th width="60">状态</th>
+                <th width="80">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="coupons" id="vo"}
+            <tr class="text-c">
+                <td>{$vo.id}</td>
+                <td>{$vo.coupons_number}</td>
+                <td>{$vo.coupons_pass}</td>
+                <td>{$good_id_to_name[$vo.id]}</td>
+                <td>{$shop_id_to_name[$vo.id]}</td>
+                <td>{$couponsBeginTime[$vo.id]|date="20y-m-d h:i", ###}</td>
+                <td>{$couponsEndTime[$vo.id]|date="20y-m-d h:i", ###}</td>
+                <td>{$vo.status|statusCoupons}</td>
+                <td class="td-manage">
+                    <a style="text-decoration:none" class="ml-5 " onClick='shiyongClick("{$vo.status}","{$vo.id}")' title="使用">
+                        <i class="Hui-iconfont ">通过使用验证</i>
+                    </a>
+                    <a style="text-decoration:none" class="ml-5 " onClick="" href="{:url('orders/destroyCoupons',['id'=>$vo.id])}" title="删除">
+                        <i class="Hui-iconfont">删除</i>
+                    </a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+<script>
+    function shiyongClick(status,id) {
+        if (status ==2) {
+            layer.confirm('此消费券已经过期,无法使用。');
+        }else if(status == 1) {
+            layer.confirm('此消费券已经使用过,无法再次使用');
+        }
+        else {
+            alert("确定同意使用此消费券?");
+            var data = {'status':parseInt(status)+1,'id':parseInt(id)};
+            var url = "{:url('bis/Orders/couponsStatus')}";
+            $.post(url, data, function(result){
+
+            },"json");
+            window.location.reload();
+        }
+    }
+</script>
+{include file="public/footer"}

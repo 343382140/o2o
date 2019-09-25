@@ -1,0 +1,61 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<body>
+<div class="page-container">
+    <form class="form form-horizontal form-o2o-add" id="form-o2o-add" method="post" action="{:url('output/shenqing')}">
+        <input type="hidden"name="bis_id"value="{$bisAdmin.bis_id}">
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>总资金:</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text total" value="{$bisAdmin.money}" placeholder="" id="name" name="total_money">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>提现金额:</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text tixian" value="{$bisAdmin.money}" placeholder="" id="name" name="output_money">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>扣除1%手续费实际到账:</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input  class="input-text shiji "  readonly value="{$bisAdmin.money}" placeholder="" id="name" name="shiji_output_money">
+            </div>
+        </div>
+        <div class="row cl ">
+            <span class="tips" style="color:red;"></span>
+        </div>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                <button  type="submit" class="btn btn-primary radius output_btn " ><i class="Hui-iconfont">&#xe632;</i> 确定提现</button>
+
+                <button onClick="layer_close();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<!--包含头部文件-->
+{include file="public/footer" /}
+</body>
+<script>
+    window.onload = function() {
+            var shiji = $('.tixian').val()*0.99;
+            $('.shiji').val(shiji);
+    }
+    $('.tixian').keyup(function() {
+        var shiji = $('.tixian').val()*0.99;
+        $('.shiji').val(shiji);
+        if (parseInt($('.tixian').val()) > parseInt($('.total').val())) {
+            $('.tips').css("display","block");
+            $('.tips').text("输入金额不能大于总金额");
+            $('.output_btn').addClass('disabled');
+        } else {
+            $('.tips').css("display","none");
+            $('.output_btn').removeClass('disabled');
+
+        }
+    })
+</script>
+</html>
+</html>

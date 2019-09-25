@@ -1,0 +1,43 @@
+{include file="common/header"}
+<body>
+{include file="common/nav"}
+        <div class="content" >
+            <div class="wrap">
+                <div class="login-logo">
+                    <img src="__STATIC__/index/images/login-logo.png">
+                </div>
+                <div class="login-area">
+                    <div class="title">乐购网</div>
+                    <div class="login">
+                        <form action="{:url('user/login')}" method="post">
+                            <input type="hidden" name="goodsId" value="<?php echo input('get.goodsId'); ?>">
+                            <div class="ordinaryLogin">
+
+                                <p class="pass-form-item">
+                                    <label class="pass-label">用户名</label>
+                                    <input type="text" name="username" class="pass-text-input" placeholder="用户名">
+                                </p>
+                                <p class="pass-form-item">
+                                    <label class="pass-label">密码</label>
+                                    <input type="password" name="password" class="pass-text-input" placeholder="密码">
+                                </p>
+                                <!-- <p class="pass-form-item">
+                                    <label class="pass-label">验证码</label>
+                                    <input type="text" name="verify_code" class="pass-text-input"placeholder="验证码">
+                                </p>
+                                <div>{:captcha_img()}</div> -->
+                            </div>
+
+                            <div class="commonLogin">
+                                <p class="pass-form-item">
+                                    <input type="submit" value="登录" class="pass-button">
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {include file="common/footer"}
+</body>
+</html>

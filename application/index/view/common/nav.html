@@ -1,0 +1,36 @@
+<div class="header-bar">
+    <div class="header-inner">
+        <ul class="father">
+            <li><a class="" >{$city.name}</a></li>
+            <li>|</li>
+            <li class="city">
+                <a class="">切换城市<span class="arrow-down-logo"></span></a>
+                <div class="city-drop-down">
+                    <h3>热门城市</h3>
+                    <ul>
+                        {volist name="citys" id="vo"}
+                        <li><a href="{:url('index/index',['city'=>$vo['name']])}">{$vo['name']}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+            </li>
+            {if condition="$loginUser"}
+            <li><a href="{:url('user/logout')}">退出</a></li>
+            <li>欢迎您:&nbsp;{$loginUser->username}</li>
+            {else/}
+            <li><a class="header-a zhuce" href="{:url('user/register')}">注册</a></li>
+            <li>|</li>
+            <li><a class="header-a denglu"  href="{:url('user/login')}">登录</a></li>
+            {/if}
+            <li style="float: right;"><a href="{:url('bis/index/index')}">我要入驻</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="search">
+    <a href="{:url('index/index')}"><img src="__STATIC__/index/image/logo.png" /></a>
+    <div class="search-content">
+        <input type="text"placeholder="Search for...">
+        <button>搜索</button>
+    </div>
+</div>
